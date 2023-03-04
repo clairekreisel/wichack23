@@ -15,7 +15,7 @@ def find_texts(location, page=0) :
     a_elements = soup.find_all('a', class_='gaits-bill-detail')
     links = [];
     for a in a_elements:
-        links.append(a.get('href'))
+        links.append("https://legiscan.com/" + a.get('href'))
 
     return links
 
