@@ -3,13 +3,13 @@ from mysql.connector import Error
 
 from stateDict import location_dict
 
-#None of this works if this is run in multiple places
+#None of this works if this is run in multiple places, use sqlGetter
 #DO NOT RUN IN MULTIPLE PLACES
 
 class sqlConnector:    
     def __init__(self):
         connection = None
-        try: #TODO: figure out remote host connection
+        try:
             connection = mysql.connector.connect(host="localhost" ,user="dbUsr" ,passwd="not a password, very secure", database="wittyDBName")
         except Error:
             raise
