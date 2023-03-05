@@ -3,7 +3,7 @@ import pandas
 import matplotlib.pyplot
 
 us_map = geopandas.read_file("States_shapefile.shp")
-stats = pandas.read_csv("testval.csv")
+stats = pandas.read_csv("testval.txt")
 
 print(stats)
 
@@ -15,7 +15,7 @@ map_stats = us_map.merge(stats, left_index=True, right_index=True)
 
 print(map_stats)
 
-fig, ax = matplotlib.pyplot.subplots(1, figsize=(16,16))
+fig, ax = matplotlib.pyplot.subplots(1, figsize=(16,9))
 
 map_stats.plot(column="bills", cmap="Reds", ax=ax, edgecolor=".4")
 
@@ -25,4 +25,4 @@ fig.colorbar(vb,shrink=.4, label="Bills")
 ax.axis("off")
 
 matplotlib.pyplot.savefig("map.png")
-#matplotlib.pyplot.show()
+matplotlib.pyplot.show()
