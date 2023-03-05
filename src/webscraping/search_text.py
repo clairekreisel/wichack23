@@ -32,24 +32,16 @@ def get_text(url) :
             return __extract_pdf(str(a_link))
     
 
-
-    
-    
-    
-def __extract_html(link) :
-    pass
-
 def __extract_pdf(link) :
     urllib.request.urlretrieve(link, "temp.pdf")
     text = extract_text("temp.pdf")
     os.remove("temp.pdf")
     return text
     
-
         
 
 def main() :
-    urls = find_bills("TN")
+    urls = find_bills("TX")
     
     print(urls[5])
     print(get_text(urls[5]))
