@@ -10,7 +10,6 @@ copyleft under GNU GPL 3.0 License
 import requests
 from bs4 import BeautifulSoup
 import re
-import time
 
 
 
