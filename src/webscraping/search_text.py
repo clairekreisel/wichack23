@@ -30,14 +30,17 @@ def __get_text(url) :
     text = None
     r = requests.get(url)
     soup = BeautifulSoup(r.content, "html.parser")
-    a_tags = soup.find_all('a')
-
+    a_tags = soup.find_all('a', class_="label")
+    
     reASPX = re.compile('Format=pdf')
     reDirect = re.compile('.pdf')
     for a in a_tags:
-        
+        #print(a)
         a_link = a.get('href')
         if re.search(reASPX, str(a_link)) or re.search(reDirect, str(a_link)) :
+            
+            #print(a_link)
+
             return __extract_pdf(str(a_link))
     
 """
@@ -48,10 +51,14 @@ Parameters:
 Return: the text of the pdf
 """
 def __extract_pdf(link) :
-    urllib.request.urlretrieve(link, "temp.pdf")
-    text = extract_text("temp.pdf")
-    os.remove("temp.pdf")
-    return text
+    try :
+        urllib.request.urlretrieve(link, "temp.pdf")
+        text = extract_text("temp.pdf")
+        os.remove("temp.pdf")
+        #print(text)
+        return text
+    except urllib.error.HTTPError :
+        return "error"
 
 """
 searches a string for any matches in the keyphrases files, and returns a list of matches
@@ -60,20 +67,25 @@ Parameters:
 
 Returns: a list of matched key-phrases
 """
-def search_text(text) :
+def search_text(bill) :
+    text = __get_text(bill)
     tripped = []
     for phrase in PHRASES:
-        phrase = phrase.replace(" ", "\s")
-        if (re.search(phrase, text)) :
-            tripped.append(phrase)
+        re_phrase = phrase.replace(" ", "\s")
+        try:
+            if (re.search(re_phrase, text.lower())) :
+                tripped.append(phrase)
+        except AttributeError:
+            tripped.append("error")
 
     return tripped
 
 def main() :
-    urls = find_bills("TX")
+    urls = find_bills("AZ")
     
-    print(urls[5])
-    print(search_text(__get_text(urls[5])))
+    print(urls[0])
+    print(__get_text(urls[0]))
+    print(search_text(urls[0]))
     
 
 if __name__ == "__main__" : main()

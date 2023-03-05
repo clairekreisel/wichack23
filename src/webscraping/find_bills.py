@@ -31,7 +31,7 @@ def find_bills(location, page=0) :
     else:
         page = ""
     url = 'https://openstates.org/' + location.lower() +'/bills' + '/' + page
-    print(url)
+    #print(url)
     r = requests.get(url)
     
     soup = BeautifulSoup(r.content, "html.parser")
