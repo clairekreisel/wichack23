@@ -10,7 +10,7 @@ def search_bills() :
         bills = find_bills(state)
         for bill in bills:
             matches = search_text(bill)
-            print(matches, state)
+            #print(matches, state)
             matched_bills[bill] = (state, matches)
     return matched_bills
 

@@ -1,7 +1,7 @@
 import mysql.connector
 from mysql.connector import Error
 
-from stateDict import location_dict
+from dataDictionaries import location_dict, reason_dict
 
 #None of this works if this is run in multiple places, use sqlGetter
 #DO NOT RUN IN MULTIPLE PLACES
@@ -36,16 +36,19 @@ class sqlConnector:
         lid = location_dict[location]
         bid = (self.get_query("SELECT max(bid) FROM blc"))[0][0]
         if(bid is None):
-            bid = 0
+            bid = 1
         else:
             bid = int(bid) + 1
-        print(bid)
+
         self.post_query(f"INSERT INTO blc VALUES ({bid}, {lid})")
-        print("blc insert")
+
         self.post_query(f"INSERT INTO blt VALUES ({bid}, '{pdf_link}')")
-        print("blt insert")
+
         lSum = int((self.get_query(f"SELECT sum FROM lst WHERE lid={lid}")[0][0])) + 1
         self.post_query(f"UPDATE lst SET sum={lSum} WHERE lid={lid}")
+        
+        for reason in reasons:
+            self.post_query(f"INSERT INTO brlt (bid, rid) VALUES ({bid}, {reason_dict[reason]})")
         
 
     def getBills(self, location):

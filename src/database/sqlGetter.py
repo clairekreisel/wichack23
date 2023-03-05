@@ -1,7 +1,7 @@
 import mysql.connector
 from mysql.connector import Error
 
-from stateDict import location_dict
+from dataDictionaries import location_dict, reason_dict
 
 #SAFE TO RUN IN MULTIPLE PLACES
 

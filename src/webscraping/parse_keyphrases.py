@@ -1,4 +1,4 @@
-
+from os import path
 
 
 def parse_keyphrases() :
@@ -6,7 +6,7 @@ def parse_keyphrases() :
     keyphrases = []
 
     for file_location in keyphrase_files :
-        with open("data/keyphrases/" + file_location) as file :
+        with open(path.dirname(path.abspath(__file__)) + "/../../data/keyphrases/" + file_location) as file :
             for line in file :
                 keyphrases.append(line[:-1])
     return keyphrases
