@@ -11,11 +11,12 @@ import requests
 from bs4 import BeautifulSoup
 from find_bills import find_bills
 from pdfminer.high_level import extract_text
+from parse_keyphrases import parse_keyphrases
 import os
 import re
 import urllib
 
-
+PHRASES = parse_keyphrases()
 
 def get_text(url) :
     text = None
@@ -38,13 +39,21 @@ def __extract_pdf(link) :
     os.remove("temp.pdf")
     return text
     
-        
+def search_text(text) :
+    tripped = []
+    for phrase in PHRASES:
+        phrase = phrase.replace(" ", "\s")
+        #print(phrase)
+        if (re.search(phrase, text)) :
+            tripped.append(phrase)
+
+    return tripped
 
 def main() :
     urls = find_bills("TX")
     
     print(urls[5])
-    print(get_text(urls[5]))
+    print(search_text(get_text(urls[5])))
     
 
 if __name__ == "__main__" : main()
